@@ -1,0 +1,1329 @@
+```html
+<!DOCTYPE html>
+<html lang="am" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ባህርአብ | Bahreab - የቴክኖሎጂ እና ዲጂታል መፍትሄዎች</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: Noto Sans Ethiopic & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Ethiopic:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Tone.js for soft UI audio effects -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              200: '#bfdbfe',
+              500: '#2563eb',
+              600: '#1d4ed8',
+              700: '#1e40af',
+              900: '#1e3a8a',
+              gold: '#f59e0b',
+              emerald: '#10b981',
+              dark: '#0f172a',
+              card: '#1e293b'
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', '"Noto Sans Ethiopic"', 'sans-serif'],
+            ethiopic: ['"Noto Sans Ethiopic"', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom Scrollbar and Smooth animations */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #2563eb;
+    }
+    .glass-effect {
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .glass-effect-light {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .glow-blob {
+      filter: blur(80px);
+      opacity: 0.25;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-100 font-sans transition-colors duration-300 selection:bg-brand-500 selection:text-white">
+
+  <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+    <div class="glow-blob absolute -top-40 -left-40 w-96 h-96 bg-blue-600 rounded-full"></div>
+    <div class="glow-blob absolute top-1/3 -right-40 w-96 h-96 bg-indigo-600 rounded-full"></div>
+    <div class="glow-blob absolute bottom-10 left-1/4 w-96 h-96 bg-cyan-600 rounded-full"></div>
+  </div>
+
+  <header class="sticky top-0 z-50 transition-all duration-300 border-b border-slate-800 glass-effect" id="mainHeader">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="#" class="flex items-center gap-3 group" onclick="playSoftClick()">
+        <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-cyan-400 flex items-center justify-center text-white font-black text-xl shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform">
+          ባ
+        </div>
+        <div>
+          <span class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-blue-400 via-indigo-300 to-white bg-clip-text text-transparent">ባህርአብ</span>
+          <span class="block text-[10px] uppercase font-semibold tracking-wider text-slate-400">Bahreab Tech & Design</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+        <a href="#about" class="hover:text-blue-400 transition-colors" data-lang-am="ስለ እኔ" data-lang-en="About">ስለ እኔ</a>
+        <a href="#services" class="hover:text-blue-400 transition-colors" data-lang-am="አገልግሎቶች" data-lang-en="Services">አገልግሎቶች</a>
+        <a href="#portfolio" class="hover:text-blue-400 transition-colors" data-lang-am="ስራዎች" data-lang-en="Portfolio">ስራዎች</a>
+        <a href="#skills" class="hover:text-blue-400 transition-colors" data-lang-am="ክህሎቶች" data-lang-en="Skills">ክህሎቶች</a>
+        <a href="#estimator" class="hover:text-blue-400 transition-colors text-amber-400 flex items-center gap-1.5" data-lang-am="ወጪ አስላ" data-lang-en="Cost Calculator">
+          <i class="fa-solid fa-calculator text-xs"></i> <span>ወጪ አስላ</span>
+        </a>
+        <a href="#contact" class="hover:text-blue-400 transition-colors" data-lang-am="ያግኙኝ" data-lang-en="Contact">ያግኙኝ</a>
+      </nav>
+
+      <!-- Action Utilities: Sound, Language, Theme, & CTA -->
+      <div class="flex items-center gap-3">
+        <!-- Sound Effect Toggle -->
+        <button id="soundToggleBtn" onclick="toggleSoundEffect()" title="ድምፅ አብራ/አጥፋ" class="w-10 h-10 rounded-xl bg-slate-800/80 hover:bg-slate-700 border border-slate-700 flex items-center justify-center text-slate-300 text-sm transition-all hover:scale-105">
+          <i class="fa-solid fa-volume-high" id="soundIcon"></i>
+        </button>
+
+        <!-- Language Selector Button (Amharic / English) -->
+        <button id="langToggleBtn" onclick="toggleLanguage()" class="px-3.5 h-10 rounded-xl bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-xs font-semibold text-blue-400 flex items-center gap-1.5 transition-all hover:scale-105">
+          <i class="fa-solid fa-globe text-slate-400"></i>
+          <span id="currentLangLabel">English</span>
+        </button>
+
+        <!-- Direct CTA -->
+        <a href="#contact" onclick="playSoftClick()" class="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold shadow-lg shadow-blue-600/30 transition-all hover:scale-105">
+          <i class="fa-regular fa-paper-plane text-xs"></i>
+          <span data-lang-am="ያነጋግሩኝ" data-lang-en="Let's Talk">ያነጋግሩኝ</span>
+        </a>
+
+        <!-- Mobile Menu Toggle Button -->
+        <button id="mobileMenuBtn" onclick="toggleMobileNav()" class="md:hidden w-10 h-10 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300">
+          <i class="fa-solid fa-bars" id="menuIcon"></i>
+        </button>
+      </div>
+    </div>
+
+    <div id="mobileMenu" class="hidden md:hidden px-6 pt-2 pb-6 border-t border-slate-800 bg-slate-900/95 space-y-3">
+      <a href="#about" onclick="toggleMobileNav()" class="block py-2 text-slate-300 hover:text-blue-400 font-medium" data-lang-am="ስለ እኔ" data-lang-en="About">ስለ እኔ</a>
+      <a href="#services" onclick="toggleMobileNav()" class="block py-2 text-slate-300 hover:text-blue-400 font-medium" data-lang-am="አገልግሎቶች" data-lang-en="Services">አገልግሎቶች</a>
+      <a href="#portfolio" onclick="toggleMobileNav()" class="block py-2 text-slate-300 hover:text-blue-400 font-medium" data-lang-am="ስራዎች" data-lang-en="Portfolio">ስራዎች</a>
+      <a href="#skills" onclick="toggleMobileNav()" class="block py-2 text-slate-300 hover:text-blue-400 font-medium" data-lang-am="ክህሎቶች" data-lang-en="Skills">ክህሎቶች</a>
+      <a href="#estimator" onclick="toggleMobileNav()" class="block py-2 text-amber-400 font-semibold" data-lang-am="የፕሮጀክት ወጪ አስላ" data-lang-en="Cost Calculator">የፕሮጀክት ወጪ አስላ</a>
+      <a href="#contact" onclick="toggleMobileNav()" class="block py-2 text-slate-300 hover:text-blue-400 font-medium" data-lang-am="ያግኙኝ" data-lang-en="Contact">ያግኙኝ</a>
+      <div class="pt-2">
+        <a href="#contact" onclick="toggleMobileNav()" class="w-full inline-flex items-center justify-center gap-2 py-3 rounded-xl bg-blue-600 text-white font-medium text-sm">
+          <i class="fa-regular fa-paper-plane"></i>
+          <span data-lang-am="አሁን ፕሮጀክት ይጀምሩ" data-lang-en="Start a Project">አሁን ፕሮጀክት ይጀምሩ</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="relative z-10">
+
+    <section class="min-h-[88vh] flex items-center justify-center px-4 sm:px-6 lg:px-8 py-16">
+      <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        <!-- Hero Left Column: Bio & Call to Actions -->
+        <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+          
+          <!-- Availability Tag -->
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-950/80 border border-blue-500/30 text-blue-300 text-xs font-medium shadow-inner">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+            <span class="w-2 h-2 rounded-full bg-emerald-500 -ml-3"></span>
+            <span data-lang-am="ለአዳዲስ ስራዎች እና ፕሮጀክቶች ክፍት ነኝ ✨" data-lang-en="Available for New Projects & Freelance ✨">ለአዳዲስ ስራዎች እና ፕሮጀክቶች ክፍት ነኝ ✨</span>
+          </div>
+
+          <!-- Headline -->
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
+            <span data-lang-am="ሰላም! እኔ" data-lang-en="Hello, I'm">ሰላም! እኔ</span> 
+            <span class="bg-gradient-to-r from-blue-400 via-sky-300 to-indigo-400 bg-clip-text text-transparent"> ባህርአብ </span>
+            <span data-lang-am="እባላለሁ" data-lang-en="">እባላለሁ</span> <br>
+            <span class="text-2xl sm:text-3xl lg:text-4xl text-slate-300 font-bold block mt-2" data-lang-am="ፈጣን፣ አስተማማኝና ውብ ዲጂታል መፍትሄዎች" data-lang-en="Building Scalable & Elegant Digital Solutions">ፈጣን፣ አስተማማኝና ውብ ዲጂታል መፍትሄዎች</span>
+          </h1>
+
+          <!-- Subtitle / Bio Paragraph -->
+          <p class="text-base sm:text-lg text-slate-400 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-normal" data-lang-am="የሶፍትዌር መሃንዲስ እና የዲጂታል ሲስተሞች አበልጻጊ። ለኢትዮጵያና ለአለም አቀፍ ተቋማት ዘመናዊ ድረ-ገጾችን፣ የሞባይል አፕሊኬሽኖችን እና የክፍያ ስርአቶችን (Telebirr & Chapa) አቀናጅቼ እሰራለሁ።" data-lang-en="Full-Stack Engineer & Digital Solutions Architect. Passionate about crafting lightning-fast web platforms, intuitive mobile apps, and enterprise fintech integrations across Ethiopia and globally.">
+            የሶፍትዌር መሃንዲስ እና የዲጂታል ሲስተሞች አበልጻጊ። ለኢትዮጵያና ለአለም አቀፍ ተቋማት ዘመናዊ ድረ-ገጾችን፣ የሞባይል አፕሊኬሽኖችን እና የክፍያ ስርአቶችን (Telebirr & Chapa) አቀናጅቼ እሰራለሁ።
+          </p>
+
+          <!-- Buttons Group -->
+          <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
+            <a href="#portfolio" onclick="playSoftClick()" class="px-7 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm shadow-xl shadow-blue-600/30 flex items-center gap-2.5 transition-all hover:-translate-y-0.5">
+              <span data-lang-am="የተሰሩ ስራዎችን እይ" data-lang-en="Explore Projects">የተሰሩ ስራዎችን እይ</span>
+              <i class="fa-solid fa-arrow-right text-xs"></i>
+            </a>
+            
+            <a href="#estimator" onclick="playSoftClick()" class="px-6 py-3.5 rounded-xl bg-slate-800/90 hover:bg-slate-700 border border-slate-700 text-amber-400 font-semibold text-sm flex items-center gap-2.5 transition-all hover:-translate-y-0.5">
+              <i class="fa-solid fa-calculator text-xs"></i>
+              <span data-lang-am="የስራ ወጪ አስላ" data-lang-en="Estimate Cost">የስራ ወጪ አስላ</span>
+            </a>
+
+            <button onclick="downloadCV()" class="px-5 py-3.5 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700 text-slate-300 font-semibold text-sm flex items-center gap-2 transition-all">
+              <i class="fa-solid fa-file-arrow-down text-blue-400"></i>
+              <span data-lang-am="CV / ሬዙሜ" data-lang-en="Download CV">CV / ሬዙሜ</span>
+            </button>
+          </div>
+
+          <!-- Highlight Metric Badges -->
+          <div class="grid grid-cols-3 gap-4 pt-6 border-t border-slate-800/80 max-w-lg mx-auto lg:mx-0">
+            <div class="text-center lg:text-left">
+              <div class="text-2xl sm:text-3xl font-extrabold text-blue-400">5+</div>
+              <div class="text-xs text-slate-400 font-medium" data-lang-am="ዓመታት ልምድ" data-lang-en="Years Experience">ዓመታት ልምድ</div>
+            </div>
+            <div class="text-center lg:text-left">
+              <div class="text-2xl sm:text-3xl font-extrabold text-indigo-400">45+</div>
+              <div class="text-xs text-slate-400 font-medium" data-lang-am="የተጠናቀቁ ስራዎች" data-lang-en="Completed Projects">የተጠናቀቁ ስራዎች</div>
+            </div>
+            <div class="text-center lg:text-left">
+              <div class="text-2xl sm:text-3xl font-extrabold text-emerald-400">100%</div>
+              <div class="text-xs text-slate-400 font-medium" data-lang-am="የደንበኛ እርካታ" data-lang-en="Client Satisfaction">የደንበኛ እርካታ</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-5 flex justify-center">
+          <div class="relative w-full max-w-md">
+            
+            <!-- Background Glow behind Card -->
+            <div class="absolute -inset-1.5 bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 rounded-3xl blur-xl opacity-40 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
+
+            <!-- Profile Interactive Glass Card -->
+            <div class="relative rounded-3xl bg-slate-800/90 border border-slate-700/80 p-6 sm:p-8 backdrop-blur-xl shadow-2xl space-y-6">
+              
+              <!-- Avatar & Status -->
+              <div class="flex items-center gap-5">
+                <div class="relative">
+                  <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-gradient-to-tr from-blue-600 via-indigo-700 to-sky-400 p-1 shadow-xl">
+                    <!-- Stylized Vector Avatar -->
+                    <div class="w-full h-full rounded-[14px] bg-slate-900 flex items-center justify-center overflow-hidden">
+                      <svg class="w-16 h-16 text-blue-400" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+                      </svg>
+                    </div>
+                  </div>
+                  <span class="absolute bottom-0 right-0 w-4 h-4 bg-emerald-500 border-2 border-slate-900 rounded-full"></span>
+                </div>
+
+                <div>
+                  <h3 class="text-xl font-bold text-white">ባህርአብ (Bahreab)</h3>
+                  <p class="text-xs text-blue-400 font-semibold tracking-wide">Full-Stack Architect & Consultant</p>
+                  <p class="text-xs text-slate-400 mt-1 flex items-center gap-1.5">
+                    <i class="fa-solid fa-location-dot text-rose-500"></i> አዲስ አበባ & ባህር ዳር፣ ኢትዮጵያ
+                  </p>
+                </div>
+              </div>
+
+              <!-- Quick Code Snippet simulation -->
+              <div class="rounded-xl bg-slate-950 p-4 font-mono text-xs text-slate-300 border border-slate-800 space-y-1 overflow-x-auto">
+                <div class="text-slate-500">// Bahreab's Developer Identity</div>
+                <div><span class="text-pink-400">const</span> <span class="text-blue-300">developer</span> = {</div>
+                <div class="pl-4"><span class="text-indigo-400">name</span>: <span class="text-emerald-300">'ባህርአብ (Bahreab)'</span>,</div>
+                <div class="pl-4"><span class="text-indigo-400">skills</span>: [<span class="text-amber-300">'React'</span>, <span class="text-amber-300">'Node'</span>, <span class="text-amber-300">'Python'</span>, <span class="text-amber-300">'Flutter'</span>],</div>
+                <div class="pl-4"><span class="text-indigo-400">passion</span>: <span class="text-emerald-300">'Building High Impact Digital Products'</span>,</div>
+                <div class="pl-4"><span class="text-indigo-400">telebirrReady</span>: <span class="text-cyan-400">true</span></div>
+                <div>};</div>
+              </div>
+
+              <!-- Live Interactive Testimonial Quote in Card -->
+              <div class="p-3.5 rounded-xl bg-slate-900/60 border border-slate-700/50 flex items-start gap-3">
+                <i class="fa-solid fa-quote-left text-blue-400 text-lg mt-0.5"></i>
+                <p class="text-xs text-slate-300 leading-snug italic" data-lang-am="&ldquo;ጥራት እና ፍጥነትን ያጣመረ ዲጂታል ስራ መስራት ከፈለጉ ባህርአብ ተመራጭ ነው!&rdquo;" data-lang-en="&ldquo;Bahreab delivers exceptional engineering speed and immaculate attention to design details.&rdquo;">
+                  “ጥራት እና ፍጥነትን ያጣመረ ዲጂታል ስራ መስራት ከፈለጉ ባህርአብ ተመራጭ ነው!”
+                </p>
+              </div>
+
+              <!-- Quick Contact Badges -->
+              <div class="flex items-center justify-between pt-2">
+                <span class="text-xs text-slate-400" data-lang-am="ቀጥታ ያግኙኝ:" data-lang-en="Quick Connect:">ቀጥታ ያግኙኝ:</span>
+                <div class="flex gap-2">
+                  <a href="https://t.me/" target="_blank" class="w-8 h-8 rounded-lg bg-sky-500/20 hover:bg-sky-500/30 text-sky-400 flex items-center justify-center text-sm transition-all" title="Telegram">
+                    <i class="fa-brands fa-telegram"></i>
+                  </a>
+                  <a href="https://wa.me/" target="_blank" class="w-8 h-8 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 flex items-center justify-center text-sm transition-all" title="WhatsApp">
+                    <i class="fa-brands fa-whatsapp"></i>
+                  </a>
+                  <a href="mailto:contact@bahreab.dev" class="w-8 h-8 rounded-lg bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-400 flex items-center justify-center text-sm transition-all" title="Email">
+                    <i class="fa-regular fa-envelope"></i>
+                  </a>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="about" class="py-20 px-4 sm:px-6 lg:px-8 bg-slate-950/60 border-t border-b border-slate-800">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
+          <h2 class="text-xs uppercase tracking-widest text-blue-400 font-bold" data-lang-am="ስለ ባህርአብ ማወቅ ይፈልጋሉ?" data-lang-en="Who is Bahreab?">ስለ ባህርአብ ማወቅ ይፈልጋሉ?</h2>
+          <p class="text-3xl sm:text-4xl font-extrabold text-white" data-lang-am="የቴክኖሎጂ ፍላጎትዎትን ወደ እውን የምንቀይርበት መንገድ" data-lang-en="Turning Ideas into Scalable Realities">የቴክኖሎጂ ፍላጎትዎትን ወደ እውን የምንቀይርበት መንገድ</p>
+          <div class="w-20 h-1 bg-blue-600 mx-auto rounded-full"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          
+          <!-- Card 1: Experience & Engineering -->
+          <div class="rounded-2xl bg-slate-900 border border-slate-800 p-8 hover:border-blue-500/40 transition-all duration-300 hover:-translate-y-1">
+            <div class="w-14 h-14 rounded-xl bg-blue-600/20 text-blue-400 flex items-center justify-center text-2xl mb-6">
+              <i class="fa-solid fa-code"></i>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-3" data-lang-am="የላቀ የኮዲንግ ልምድ" data-lang-en="Modern Engineering">የላቀ የኮዲንግ ልምድ</h3>
+            <p class="text-sm text-slate-400 leading-relaxed" data-lang-am="በዘመናዊ የፍሮንት-ኢንድ እና የባክ-ኢንድ ቴክኖሎጂዎች በመታገዝ ፈጣን፣ ደህንነቱ አስተማማኝ እና ከማንኛውም ስክሪን ጋር የሚስማማ (Responsive) ሲስተም እሰራለሁ።" data-lang-en="Proficient in cutting-edge web frameworks, cloud APIs, and responsive frontends that perform seamlessly across all screens.">
+              በዘመናዊ የፍሮንት-ኢንድ እና የባክ-ኢንድ ቴክኖሎጂዎች በመታገዝ ፈጣን፣ ደህንነቱ አስተማማኝ እና ከማንኛውም ስክሪን ጋር የሚስማማ (Responsive) ሲስተም እሰራለሁ።
+            </p>
+          </div>
+
+          <!-- Card 2: Local & Global Integration -->
+          <div class="rounded-2xl bg-slate-900 border border-slate-800 p-8 hover:border-emerald-500/40 transition-all duration-300 hover:-translate-y-1">
+            <div class="w-14 h-14 rounded-xl bg-emerald-600/20 text-emerald-400 flex items-center justify-center text-2xl mb-6">
+              <i class="fa-solid fa-wallet"></i>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-3" data-lang-am="የክፍያና ሲስተም ቅንጅት" data-lang-en="Fintech & Payments">የክፍያና ሲስተም ቅንጅት</h3>
+            <p class="text-sm text-slate-400 leading-relaxed" data-lang-am="የቴሌብር (Telebirr)፣ የቻፓ (Chapa) እንዲሁም የባንክ ክፍያዎችን ከድረ-ገጽ እና መተግበሪያዎች ጋር በማገናኘት ንግድዎን በዲጂታል መንገድ እንዲቀላጠፍ አደርጋለሁ።" data-lang-en="Expert integration of Ethiopian payment systems like Telebirr, CBE Birr, and Chapa alongside global platforms like Stripe and PayPal.">
+              የቴሌብር (Telebirr)፣ የቻፓ (Chapa) እንዲሁም የባንክ ክፍያዎችን ከድረ-ገጽ እና መተግበሪያዎች ጋር በማገናኘት ንግድዎን በዲጂታል መንገድ እንዲቀላጠፍ አደርጋለሁ።
+            </p>
+          </div>
+
+          <!-- Card 3: Business Value & Speed -->
+          <div class="rounded-2xl bg-slate-900 border border-slate-800 p-8 hover:border-purple-500/40 transition-all duration-300 hover:-translate-y-1">
+            <div class="w-14 h-14 rounded-xl bg-purple-600/20 text-purple-400 flex items-center justify-center text-2xl mb-6">
+              <i class="fa-solid fa-rocket"></i>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-3" data-lang-am="ፈጣንና ቋሚ ድጋፍ" data-lang-en="Agile Delivery & Support">ፈጣንና ቋሚ ድጋፍ</h3>
+            <p class="text-sm text-slate-400 leading-relaxed" data-lang-am="ፕሮጀክቶችን በተያዘላቸው የጊዜ ሰሌዳ ማጠናቀቅ፣ ቀጣይነት ያለው ክትትል እና የቴክኒክ ድጋፍ መስጠት ዋነኛ መርኼ ነው።" data-lang-en="Guaranteed on-time delivery with rigorous quality testing, continuous maintenance, and 24/7 dedicated technical consultation.">
+              ፕሮጀክቶችን በተያዘላቸው የጊዜ ሰሌዳ ማጠናቀቅ፣ ቀጣይነት ያለው ክትትል እና የቴክኒክ ድጋፍ መስጠት ዋነኛ መርኼ ነው።
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section id="services" class="py-20 px-4 sm:px-6 lg:px-8">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
+          <h2 class="text-xs uppercase tracking-widest text-blue-400 font-bold" data-lang-am="የምሰጣቸው አገልግሎቶች" data-lang-en="What I Offer">የምሰጣቸው አገልግሎቶች</h2>
+          <p class="text-3xl sm:text-4xl font-extrabold text-white" data-lang-am="ለንግድዎ እና ለስራዎ የተሟሉ ዲጂታል መፍትሄዎች" data-lang-en="Comprehensive Digital Services for Modern Enterprises">ለንግድዎ እና ለስራዎ የተሟሉ ዲጂታል መፍትሄዎች</p>
+          <div class="w-20 h-1 bg-indigo-600 mx-auto rounded-full"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          
+          <!-- Service 1: Web Development -->
+          <div class="p-6 rounded-2xl bg-slate-800/60 border border-slate-700/60 hover:bg-slate-800 hover:border-blue-500 transition-all group">
+            <div class="w-12 h-12 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform">
+              <i class="fa-solid fa-laptop-code"></i>
+            </div>
+            <h4 class="text-lg font-bold text-white mb-2" data-lang-am="የድር ጣቢያ (Website) ዝግጅት" data-lang-en="Custom Web Development">የድር ጣቢያ (Website) ዝግጅት</h4>
+            <p class="text-xs sm:text-sm text-slate-400 leading-relaxed" data-lang-am="ለድርጅቶች፣ ለንግድ ማስተዋወቂያ፣ ለግል ፖርትፎሊዮ እና ለትምህርት ተቋማት የሚሆኑ ማራኪ ድረ-ገጾችን ማበልፀግ።" data-lang-en="High-converting corporate portals, landing pages, and interactive web applications engineered for speed.">
+              ለድርጅቶች፣ ለንግድ ማስተዋወቂያ፣ ለግል ፖርትፎሊዮ እና ለትምህርት ተቋማት የሚሆኑ ማራኪ ድረ-ገጾችን ማበልፀግ።
+            </p>
+          </div>
+
+          <!-- Service 2: Mobile Apps -->
+          <div class="p-6 rounded-2xl bg-slate-800/60 border border-slate-700/60 hover:bg-slate-800 hover:border-blue-500 transition-all group">
+            <div class="w-12 h-12 rounded-xl bg-sky-500/10 text-sky-400 flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform">
+              <i class="fa-solid fa-mobile-screen-button"></i>
+            </div>
+            <h4 class="text-lg font-bold text-white mb-2" data-lang-am="የሞባይል አፕሊኬሽን (Mobile Apps)" data-lang-en="Cross-Platform Mobile Apps">የሞባይል አፕሊኬሽን (Mobile Apps)</h4>
+            <p class="text-xs sm:text-sm text-slate-400 leading-relaxed" data-lang-am="በአንድ ጊዜ ለአንድሮይድ (Android) እና ለአይኦኤስ (iOS) የሚሰሩ ፈጣን እና ቀላል የሞባይል አፕሊኬሽኖች።" data-lang-en="Native-feel mobile apps with Flutter and React Native, tailored for smooth everyday user experiences.">
+              በአንድ ጊዜ ለአንድሮይድ (Android) እና ለአይኦኤስ (iOS) የሚሰሩ ፈጣን እና ቀላል የሞባይል አፕሊኬሽኖች።
+            </p>
+          </div>
+
+          <!-- Service 3: E-Commerce & Payment -->
+          <div class="p-6 rounded-2xl bg-slate-800/60 border border-slate-700/60 hover:bg-slate-800 hover:border-blue-500 transition-all group">
+            <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform">
+              <i class="fa-solid fa-cart-shopping"></i>
+            </div>
+            <h4 class="text-lg font-bold text-white mb-2" data-lang-am="የኢ-ኮሜርስ (E-Commerce) መደብሮች" data-lang-en="E-Commerce & Online Stores">የኢ-ኮሜርስ (E-Commerce) መደብሮች</h4>
+            <p class="text-xs sm:text-sm text-slate-400 leading-relaxed" data-lang-am="እቃዎችዎን በመስመር ላይ የሚሸጡበት፣ ደረሰኝ የሚያዘጋጅ እና ክፍያዎችን በቴሌብር የሚቀበል የንግድ ሱቅ።" data-lang-en="Full-featured online shops equipped with inventory management, invoicing, and instant payment gateways.">
+              እቃዎችዎን በመስመር ላይ የሚሸጡበት፣ ደረሰኝ የሚያዘጋጅ እና ክፍያዎችን በቴሌብር የሚቀበል የንግድ ሱቅ።
+            </p>
+          </div>
+
+          <!-- Service 4: UI/UX & Graphics -->
+          <div class="p-6 rounded-2xl bg-slate-800/60 border border-slate-700/60 hover:bg-slate-800 hover:border-blue-500 transition-all group">
+            <div class="w-12 h-12 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform">
+              <i class="fa-solid fa-pen-nib"></i>
+            </div>
+            <h4 class="text-lg font-bold text-white mb-2" data-lang-am="UI/UX ዲዛይንና ብራንዲንግ" data-lang-en="UI/UX & Product Design">UI/UX ዲዛይንና ብራንዲንግ</h4>
+            <p class="text-xs sm:text-sm text-slate-400 leading-relaxed" data-lang-am="ተጠቃሚዎችን የሚስቡ ዘመናዊ ቅርጾች፣ አርማዎች (Logos) እና የዲጂታል ብራንድ መለያዎችን ማዘጋጀት።" data-lang-en="Intuitive, human-centered UI/UX mockups, design systems, and cohesive branding assets.">
+              ተጠቃሚዎችን የሚስቡ ዘመናዊ ቅርጾች፣ አርማዎች (Logos) እና የዲጂታል ብራንድ መለያዎችን ማዘጋጀት።
+            </p>
+          </div>
+
+          <!-- Service 5: Database & Cloud Systems -->
+          <div class="p-6 rounded-2xl bg-slate-800/60 border border-slate-700/60 hover:bg-slate-800 hover:border-blue-500 transition-all group">
+            <div class="w-12 h-12 rounded-xl bg-teal-500/10 text-teal-400 flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform">
+              <i class="fa-solid fa-database"></i>
+            </div>
+            <h4 class="text-lg font-bold text-white mb-2" data-lang-am="የዳታቤዝ እና የደመና (Cloud) ሲስተም" data-lang-en="Cloud & Database Systems">የዳታቤዝ እና የደመና (Cloud) ሲስተም</h4>
+            <p class="text-xs sm:text-sm text-slate-400 leading-relaxed" data-lang-am="መረጃዎችን በታማኝነት ማከማቸት፣ የሰራተኞች እና የሽያጭ መቆጣጠሪያ ዳሽቦርዶችን መገንባት።" data-lang-en="Scalable relational/NoSQL databases, secure cloud deployment, and real-time executive analytics dashboards.">
+              መረጃዎችን በታማኝነት ማከማቸት፣ የሰራተኞች እና የሽያጭ መቆጣጠሪያ ዳሽቦርዶችን መገንባት።
+            </p>
+          </div>
+
+          <!-- Service 6: Tech Consultation -->
+          <div class="p-6 rounded-2xl bg-slate-800/60 border border-slate-700/60 hover:bg-slate-800 hover:border-blue-500 transition-all group">
+            <div class="w-12 h-12 rounded-xl bg-rose-500/10 text-rose-400 flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform">
+              <i class="fa-solid fa-headset"></i>
+            </div>
+            <h4 class="text-lg font-bold text-white mb-2" data-lang-am="የቴክኖሎጂ ማማከርና ስልጠና" data-lang-en="Consultancy & Strategy">የቴክኖሎጂ ማማከርና ስልጠና</h4>
+            <p class="text-xs sm:text-sm text-slate-400 leading-relaxed" data-lang-am="ተቋማት ዲጂታል ሽግግር ሲያደርጉ ተገቢውን ቴክኖሎጂ እንዲመርጡና ሰራተኞችን ማብቃት።" data-lang-en="Strategic architectural advisory, digital transformation roadmap, and developer mentoring.">
+              ተቋማት ዲጂታል ሽግግር ሲያደርጉ ተገቢውን ቴክኖሎጂ እንዲመርጡና ሰራተኞችን ማብቃት።
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section id="portfolio" class="py-20 px-4 sm:px-6 lg:px-8 bg-slate-950/60 border-t border-slate-800">
+      <div class="max-w-7xl mx-auto">
+        
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+          <div>
+            <h2 class="text-xs uppercase tracking-widest text-blue-400 font-bold" data-lang-am="የተመረጡ ስራዎች" data-lang-en="Featured Work">የተመረጡ ስራዎች</h2>
+            <p class="text-3xl sm:text-4xl font-extrabold text-white mt-2" data-lang-am="ባህርአብ የሰራቸው የቅርብ ጊዜ ፕሮጀክቶች" data-lang-en="Recent Projects by Bahreab">ባህርአብ የሰራቸው የቅርብ ጊዜ ፕሮጀክቶች</p>
+          </div>
+
+          <!-- Filter buttons -->
+          <div class="flex flex-wrap gap-2" id="portfolioFilterContainer">
+            <button onclick="filterPortfolio('all', this)" class="filter-btn active px-4 py-2 rounded-xl text-xs font-semibold bg-blue-600 text-white transition-all shadow-md">
+              <span data-lang-am="ሁሉም" data-lang-en="All">ሁሉም</span>
+            </button>
+            <button onclick="filterPortfolio('web', this)" class="filter-btn px-4 py-2 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 transition-all">
+              <span data-lang-am="ድረ-ገጾች" data-lang-en="Web Apps">ድረ-ገጾች</span>
+            </button>
+            <button onclick="filterPortfolio('mobile', this)" class="filter-btn px-4 py-2 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 transition-all">
+              <span data-lang-am="ሞባይል አፖች" data-lang-en="Mobile Apps">ሞባይል አፖች</span>
+            </button>
+            <button onclick="filterPortfolio('fintech', this)" class="filter-btn px-4 py-2 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 transition-all">
+              <span data-lang-am="ፊንቴክ & ኢ-ኮሜርስ" data-lang-en="Fintech & E-Com">ፊንቴክ & ኢ-ኮሜርስ</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Project Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="portfolioGrid">
+          
+          <!-- Project 1: E-Commerce Store -->
+          <div class="portfolio-item rounded-2xl bg-slate-900 border border-slate-800 overflow-hidden hover:border-blue-500/50 transition-all duration-300 flex flex-col" data-category="fintech">
+            <div class="h-48 bg-gradient-to-tr from-blue-900 via-indigo-950 to-slate-900 relative p-6 flex items-center justify-center overflow-hidden group">
+              <div class="w-16 h-16 rounded-2xl bg-blue-600/30 border border-blue-400/40 flex items-center justify-center text-3xl text-blue-300 shadow-xl group-hover:scale-110 transition-transform">
+                <i class="fa-solid fa-basket-shopping"></i>
+              </div>
+              <span class="absolute top-4 right-4 px-2.5 py-1 rounded-full bg-slate-900/80 border border-slate-700 text-[10px] font-semibold text-emerald-400">Telebirr Integrated</span>
+            </div>
+            <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+              <div>
+                <h3 class="text-lg font-bold text-white mb-2" data-lang-am="ሀበሻ ማርት - የኢ-ኮሜርስ ፕላትፎርም" data-lang-en="Habesha Mart - E-Commerce Platform">ሀበሻ ማርት - የኢ-ኮሜርስ ፕላትፎርም</h3>
+                <p class="text-xs text-slate-400 leading-relaxed" data-lang-am="በቴሌብር እና በባንክ ካርድ ቀጥታ ክፍያ የሚቀበል፣ ለሸማቾችና ለነጋዴዎች የተዘጋጀ ዘመናዊ መገበያያ ድረ-ገጽ።" data-lang-en="Full-scale multi-vendor marketplace featuring instant Telebirr checkout and automated order SMS dispatch.">
+                  በቴሌብር እና በባንክ ካርድ ቀጥታ ክፍያ የሚቀበል፣ ለሸማቾችና ለነጋዴዎች የተዘጋጀ ዘመናዊ መገበያያ ድረ-ገጽ።
+                </p>
+              </div>
+              <div class="flex items-center justify-between pt-4 border-t border-slate-800">
+                <div class="flex gap-1.5 text-xs text-slate-400">
+                  <span class="px-2 py-0.5 rounded bg-slate-800 font-mono text-[11px]">React</span>
+                  <span class="px-2 py-0.5 rounded bg-slate-800 font-mono text-[11px]">Node.js</span>
+                </div>
+                <button onclick="openProjectModal('habeshaMart')" class="text-xs font-semibold text-blue-400 hover:text-blue-300 flex items-center gap-1">
+                  <span data-lang-am="ዝርዝር ይመልከቱ" data-lang-en="View Case">ዝርዝር ይመልከቱ</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project 2: Ride & Delivery App -->
+          <div class="portfolio-item rounded-2xl bg-slate-900 border border-slate-800 overflow-hidden hover:border-blue-500/50 transition-all duration-300 flex flex-col" data-category="mobile">
+            <div class="h-48 bg-gradient-to-tr from-emerald-950 via-teal-950 to-slate-900 relative p-6 flex items-center justify-center overflow-hidden group">
+              <div class="w-16 h-16 rounded-2xl bg-emerald-600/30 border border-emerald-400/40 flex items-center justify-center text-3xl text-emerald-300 shadow-xl group-hover:scale-110 transition-transform">
+                <i class="fa-solid fa-map-location-dot"></i>
+              </div>
+              <span class="absolute top-4 right-4 px-2.5 py-1 rounded-full bg-slate-900/80 border border-slate-700 text-[10px] font-semibold text-cyan-400">Flutter & Maps</span>
+            </div>
+            <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+              <div>
+                <h3 class="text-lg font-bold text-white mb-2" data-lang-am="ፈጣን ደሊቨሪ - የሞባይል መተግበሪያ" data-lang-en="Fast Delivery - Logistics & Dispatch">ፈጣን ደሊቨሪ - የሞባይል መተግበሪያ</h3>
+                <p class="text-xs text-slate-400 leading-relaxed" data-lang-am="የእቃዎችን እንቅስቃሴ በቀጥታ ካርታ ላይ የሚያሳይ እና ለሾፌሮችና ደንበኞች የተሰራ የቀጥታ መከታተያ መተግበሪያ።" data-lang-en="Real-time parcel tracking and driver routing mobile app built with Flutter and WebSocket connections.">
+                  የእቃዎችን እንቅስቃሴ በቀጥታ ካርታ ላይ የሚያሳይ እና ለሾፌሮችና ደንበኞች የተሰራ የቀጥታ መከታተያ መተግበሪያ።
+                </p>
+              </div>
+              <div class="flex items-center justify-between pt-4 border-t border-slate-800">
+                <div class="flex gap-1.5 text-xs text-slate-400">
+                  <span class="px-2 py-0.5 rounded bg-slate-800 font-mono text-[11px]">Flutter</span>
+                  <span class="px-2 py-0.5 rounded bg-slate-800 font-mono text-[11px]">Firebase</span>
+                </div>
+                <button onclick="openProjectModal('fastDelivery')" class="text-xs font-semibold text-blue-400 hover:text-blue-300 flex items-center gap-1">
+                  <span data-lang-am="ዝርዝር ይመልከቱ" data-lang-en="View Case">ዝርዝር ይመልከቱ</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project 3: Hospital & Clinic Management -->
+          <div class="portfolio-item rounded-2xl bg-slate-900 border border-slate-800 overflow-hidden hover:border-blue-500/50 transition-all duration-300 flex flex-col" data-category="web">
+            <div class="h-48 bg-gradient-to-tr from-purple-950 via-slate-900 to-indigo-950 relative p-6 flex items-center justify-center overflow-hidden group">
+              <div class="w-16 h-16 rounded-2xl bg-purple-600/30 border border-purple-400/40 flex items-center justify-center text-3xl text-purple-300 shadow-xl group-hover:scale-110 transition-transform">
+                <i class="fa-solid fa-hospital-user"></i>
+              </div>
+              <span class="absolute top-4 right-4 px-2.5 py-1 rounded-full bg-slate-900/80 border border-slate-700 text-[10px] font-semibold text-purple-300">Enterprise SaaS</span>
+            </div>
+            <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+              <div>
+                <h3 class="text-lg font-bold text-white mb-2" data-lang-am="ጤና ኬር - የክሊኒክ አስተዳደር ድረ-ገጽ" data-lang-en="Tena Care - Clinic Management System">ጤና ኬር - የክሊኒክ አስተዳደር ድረ-ገጽ</h3>
+                <p class="text-xs text-slate-400 leading-relaxed" data-lang-am="የታካሚዎች ታሪክ፣ የመድሃኒት ክምችት፣ የዶክተሮች ቀጠሮ እና ፋይናንስ በአንድ ማዕከል የሚቆጣጠር ሲስተም።" data-lang-en="Electronic Health Records (EHR) and outpatient scheduling system deployed for regional medical centers.">
+                  የታካሚዎች ታሪክ፣ የመድሃኒት ክምችት፣ የዶክተሮች ቀጠሮ እና ፋይናንስ በአንድ ማዕከል የሚቆጣጠር ሲስተም።
+                </p>
+              </div>
+              <div class="flex items-center justify-between pt-4 border-t border-slate-800">
+                <div class="flex gap-1.5 text-xs text-slate-400">
+                  <span class="px-2 py-0.5 rounded bg-slate-800 font-mono text-[11px]">Next.js</span>
+                  <span class="px-2 py-0.5 rounded bg-slate-800 font-mono text-[11px]">PostgreSQL</span>
+                </div>
+                <button onclick="openProjectModal('tenaCare')" class="text-xs font-semibold text-blue-400 hover:text-blue-300 flex items-center gap-1">
+                  <span data-lang-am="ዝርዝር ይመልከቱ" data-lang-en="View Case">ዝርዝር ይመልከቱ</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <section id="estimator" class="py-20 px-4 sm:px-6 lg:px-8 border-t border-slate-800 bg-slate-900">
+      <div class="max-w-5xl mx-auto">
+        
+        <div class="text-center max-w-3xl mx-auto space-y-4 mb-12">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-semibold">
+            <i class="fa-solid fa-calculator"></i>
+            <span data-lang-am="የስራ ወጪ ማስያ መሳሪያ" data-lang-en="Interactive Cost Calculator">የስራ ወጪ ማስያ መሳሪያ</span>
+          </div>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-white" data-lang-am="የፕሮጀክትዎን ግምታዊ ዋጋ አሁኑኑ ያሰሉ" data-lang-en="Estimate Your Project Cost & Timeline">የፕሮጀክትዎን ግምታዊ ዋጋ አሁኑኑ ያሰሉ</h2>
+          <p class="text-sm text-slate-400" data-lang-am="የሚፈልጉትን የአገልግሎት አይነትና ዝርዝር ፍላጎቶች በመምረጥ ግምታዊ ዋጋና የሚፈጀውን ጊዜ ይመልከቱ" data-lang-en="Select your preferred project specs, platform requirements, and features to get instant estimates in ETB or USD.">
+            የሚፈልጉትን የአገልግሎት አይነትና ዝርዝር ፍላጎቶች በመምረጥ ግምታዊ ዋጋና የሚፈጀውን ጊዜ ይመልከቱ
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          
+          <!-- Options Selector Left Form -->
+          <div class="lg:col-span-7 bg-slate-950 p-6 sm:p-8 rounded-3xl border border-slate-800 space-y-6">
+            
+            <!-- Step 1: Project Type -->
+            <div>
+              <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-3" data-lang-am="1. የፕሮጀክቱ አይነት" data-lang-en="1. Project Category">
+                1. የፕሮጀክቱ አይነት
+              </label>
+              <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                <button type="button" onclick="selectType(this, 15000, 10)" class="type-btn active p-3 rounded-xl border border-blue-500 bg-blue-600/20 text-left transition-all">
+                  <div class="text-xs font-bold text-white" data-lang-am="የድርጅት ድረ-ገጽ" data-lang-en="Corporate Website">የድርጅት ድረ-ገጽ</div>
+                  <div class="text-[11px] text-slate-400 mt-1">Landing / Portfolio</div>
+                </button>
+                <button type="button" onclick="selectType(this, 35000, 20)" class="type-btn p-3 rounded-xl border border-slate-800 bg-slate-900 text-left hover:border-slate-700 transition-all">
+                  <div class="text-xs font-bold text-white" data-lang-am="ኢ-ኮሜርስ / ሱቅ" data-lang-en="E-Commerce Store">ኢ-ኮሜርስ / ሱቅ</div>
+                  <div class="text-[11px] text-slate-400 mt-1">Store + Orders</div>
+                </button>
+                <button type="button" onclick="selectType(this, 48000, 25)" class="type-btn p-3 rounded-xl border border-slate-800 bg-slate-900 text-left hover:border-slate-700 transition-all">
+                  <div class="text-xs font-bold text-white" data-lang-am="የሞባይል አፕ" data-lang-en="Mobile App">የሞባይል አፕ</div>
+                  <div class="text-[11px] text-slate-400 mt-1">iOS & Android</div>
+                </button>
+                <button type="button" onclick="selectType(this, 60000, 30)" class="type-btn p-3 rounded-xl border border-slate-800 bg-slate-900 text-left hover:border-slate-700 transition-all">
+                  <div class="text-xs font-bold text-white" data-lang-am="ብጁ የሶፍትዌር ሲስተም" data-lang-en="Custom ERP / SaaS">ብጁ የሶፍትዌር ሲስተም</div>
+                  <div class="text-[11px] text-slate-400 mt-1">Full Database / API</div>
+                </button>
+                <button type="button" onclick="selectType(this, 12000, 7)" class="type-btn p-3 rounded-xl border border-slate-800 bg-slate-900 text-left hover:border-slate-700 transition-all">
+                  <div class="text-xs font-bold text-white" data-lang-am="UI/UX ዲዛይን ብቻ" data-lang-en="UI/UX Design Only">UI/UX ዲዛይን ብቻ</div>
+                  <div class="text-[11px] text-slate-400 mt-1">Figma Prototype</div>
+                </button>
+                <button type="button" onclick="selectType(this, 8000, 5)" class="type-btn p-3 rounded-xl border border-slate-800 bg-slate-900 text-left hover:border-slate-700 transition-all">
+                  <div class="text-xs font-bold text-white" data-lang-am="ማሻሻል / ጥገና" data-lang-en="Maintenance/Fix">ማሻሻል / ጥገና</div>
+                  <div class="text-[11px] text-slate-400 mt-1">Optimization / Bugfix</div>
+                </button>
+              </div>
+            </div>
+
+            <!-- Step 2: Extra Add-ons -->
+            <div>
+              <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-3" data-lang-am="2. የሚያስፈልጉ ተጨማሪ ባህሪያት (Add-ons)" data-lang-en="2. Additional Features (Add-ons)">
+                2. የሚያስፈልጉ ተጨማሪ ባህሪያት (Add-ons)
+              </label>
+              <div class="space-y-2.5">
+                <label class="flex items-center justify-between p-3 rounded-xl bg-slate-900 border border-slate-800 cursor-pointer hover:border-slate-700">
+                  <span class="flex items-center gap-3">
+                    <input type="checkbox" onchange="toggleAddon(8000, 3, this)" class="w-4 h-4 rounded text-blue-600 focus:ring-blue-500 bg-slate-800 border-slate-700">
+                    <span class="text-xs text-slate-300" data-lang-am="ቴሌብር እና ቻፓ ክፍያ ማገናኘት" data-lang-en="Telebirr & Chapa Payment Gateway">ቴሌብር እና ቻፓ ክፍያ ማገናኘት</span>
+                  </span>
+                  <span class="text-xs text-blue-400 font-mono font-bold">+8,000 ብር</span>
+                </label>
+
+                <label class="flex items-center justify-between p-3 rounded-xl bg-slate-900 border border-slate-800 cursor-pointer hover:border-slate-700">
+                  <span class="flex items-center gap-3">
+                    <input type="checkbox" onchange="toggleAddon(7000, 4, this)" class="w-4 h-4 rounded text-blue-600 focus:ring-blue-500 bg-slate-800 border-slate-700">
+                    <span class="text-xs text-slate-300" data-lang-am="የአስተዳዳሪ (Admin) ዳሽቦርድ" data-lang-en="Custom Admin Control Dashboard">የአስተዳዳሪ (Admin) ዳሽቦርድ</span>
+                  </span>
+                  <span class="text-xs text-blue-400 font-mono font-bold">+7,000 ብር</span>
+                </label>
+
+                <label class="flex items-center justify-between p-3 rounded-xl bg-slate-900 border border-slate-800 cursor-pointer hover:border-slate-700">
+                  <span class="flex items-center gap-3">
+                    <input type="checkbox" onchange="toggleAddon(4500, 2, this)" class="w-4 h-4 rounded text-blue-600 focus:ring-blue-500 bg-slate-800 border-slate-700">
+                    <span class="text-xs text-slate-300" data-lang-am="ሁለት ቋንቋ (አማርኛ + እንግሊዝኛ)" data-lang-en="Multi-language (Amharic + English)">ሁለት ቋንቋ (አማርኛ + እንግሊዝኛ)</span>
+                  </span>
+                  <span class="text-xs text-blue-400 font-mono font-bold">+4,500 ብር</span>
+                </label>
+
+                <label class="flex items-center justify-between p-3 rounded-xl bg-slate-900 border border-slate-800 cursor-pointer hover:border-slate-700">
+                  <span class="flex items-center gap-3">
+                    <input type="checkbox" onchange="toggleAddon(3500, 2, this)" class="w-4 h-4 rounded text-blue-600 focus:ring-blue-500 bg-slate-800 border-slate-700">
+                    <span class="text-xs text-slate-300" data-lang-am="የGoogle SEO & ፍጥነት ማሻሻያ" data-lang-en="Advanced SEO & Speed Optimization">የGoogle SEO & ፍጥነት ማሻሻያ</span>
+                  </span>
+                  <span class="text-xs text-blue-400 font-mono font-bold">+3,500 ብር</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Step 3: Urgency / Timeline -->
+            <div>
+              <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2" data-lang-am="3. የመረጡት የማጠናቀቂያ ፍጥነት" data-lang-en="3. Delivery Urgency">
+                3. የመረጡት የማጠናቀቂያ ፍጥነት
+              </label>
+              <div class="grid grid-cols-2 gap-3">
+                <button type="button" onclick="selectSpeed(1.0, 0, this)" class="speed-btn active p-3 rounded-xl border border-blue-500 bg-blue-600/20 text-center text-xs font-semibold text-white">
+                  <span data-lang-am="መደበኛ ፍጥነት" data-lang-en="Standard Pace">መደበኛ ፍጥነት</span>
+                </button>
+                <button type="button" onclick="selectSpeed(1.3, -5, this)" class="speed-btn p-3 rounded-xl border border-slate-800 bg-slate-900 text-center text-xs font-semibold text-slate-300 hover:border-slate-700">
+                  <span class="text-amber-400 font-bold" data-lang-am="አስቸኳይ (Express +30%)" data-lang-en="Express Rush (+30%)">አስቸኳይ (Express +30%)</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Price Output Summary Right Box -->
+          <div class="lg:col-span-5 bg-gradient-to-b from-slate-950 to-slate-900 p-6 sm:p-8 rounded-3xl border border-blue-500/30 shadow-2xl relative">
+            <h3 class="text-base font-bold text-white mb-6 flex items-center justify-between">
+              <span data-lang-am="ግምታዊ የወጪ ማጠቃለያ" data-lang-en="Estimated Cost Summary">ግምታዊ የወጪ ማጠቃለያ</span>
+              <span class="text-xs px-2.5 py-1 rounded bg-blue-500/20 text-blue-400 font-mono">ETB / USD</span>
+            </h3>
+
+            <div class="space-y-4 border-b border-slate-800 pb-6 mb-6 text-sm">
+              <div class="flex justify-between text-slate-400">
+                <span data-lang-am="መነሻ ዋጋ:" data-lang-en="Base Package:">መነሻ ዋጋ:</span>
+                <span id="baseCostLabel" class="text-white font-mono font-bold">15,000 ብር</span>
+              </div>
+              <div class="flex justify-between text-slate-400">
+                <span data-lang-am="የተጨማሪ አገልግሎቶች ዋጋ:" data-lang-en="Add-ons Total:">የተጨማሪ አገልግሎቶች ዋጋ:</span>
+                <span id="addonsCostLabel" class="text-white font-mono font-bold">0 ብር</span>
+              </div>
+              <div class="flex justify-between text-slate-400">
+                <span data-lang-am="የሚፈጀው ግምታዊ ጊዜ:" data-lang-en="Estimated Timeline:">የሚፈጀው ግምታዊ ጊዜ:</span>
+                <span id="timelineLabel" class="text-emerald-400 font-bold font-mono">10 የስራ ቀናት</span>
+              </div>
+            </div>
+
+            <!-- Grand Total -->
+            <div class="text-center py-4 bg-slate-900/90 rounded-2xl border border-slate-800 mb-6">
+              <div class="text-xs uppercase text-slate-400 tracking-wider font-semibold mb-1" data-lang-am="የፕሮጀክቱ ጠቅላላ ግምት" data-lang-en="Estimated Total Investment">የፕሮጀክቱ ጠቅላላ ግምት</div>
+              <div class="text-3xl sm:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-sky-300 to-amber-400 font-mono" id="totalCostDisplay">
+                15,000 ብር
+              </div>
+              <div class="text-xs text-slate-400 mt-1 font-mono" id="usdCostDisplay">
+                ≈ $110 - $125 USD
+              </div>
+            </div>
+
+            <p class="text-[11px] text-slate-400 leading-normal mb-6 text-center italic" data-lang-am="* ይህ ዋጋ ግምታዊ ሲሆን፤ እንደ ፕሮጀክቱ ትክክለኛ ዝርዝር ሊለያይ ይችላል።" data-lang-en="* Note: This is an automated estimate; exact pricing is finalized upon detailed scope review.">
+              * ይህ ዋጋ ግምታዊ ሲሆን፤ እንደ ፕሮጀክቱ ትክክለኛ ዝርዝር ሊለያይ ይችላል።
+            </p>
+
+            <button onclick="applyEstimateToContact()" class="w-full py-4 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-sm shadow-xl shadow-blue-600/30 flex items-center justify-center gap-2 transition-all hover:scale-[1.02]">
+              <i class="fa-solid fa-file-invoice-dollar"></i>
+              <span data-lang-am="ይህን ግምት ይዘው ያነጋግሩኝ" data-lang-en="Order with this Estimate">ይህን ግምት ይዘው ያነጋግሩኝ</span>
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <section id="skills" class="py-20 px-4 sm:px-6 lg:px-8">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
+          <h2 class="text-xs uppercase tracking-widest text-blue-400 font-bold" data-lang-am="የምጠቀምባቸው ቴክኖሎጂዎች" data-lang-en="Tech Stack & Skills">የምጠቀምባቸው ቴክኖሎጂዎች</h2>
+          <p class="text-3xl sm:text-4xl font-extrabold text-white" data-lang-am="ባህርአብ በብቃት የሚሰራባቸው የሶፍትዌር መሳሪያዎች" data-lang-en="Modern Technologies & Engineering Tools">ባህርአብ በብቃት የሚሰራባቸው የሶፍትዌር መሳሪያዎች</p>
+          <div class="w-20 h-1 bg-cyan-500 mx-auto rounded-full"></div>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+          
+          <div class="p-4 rounded-2xl bg-slate-800/40 border border-slate-700/60 text-center hover:bg-slate-800 hover:border-blue-500 transition-all">
+            <i class="fa-brands fa-react text-3xl text-cyan-400 mb-2"></i>
+            <div class="text-sm font-bold text-white">React / Next.js</div>
+            <div class="text-[11px] text-slate-400">Frontend Masters</div>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-slate-800/40 border border-slate-700/60 text-center hover:bg-slate-800 hover:border-blue-500 transition-all">
+            <i class="fa-brands fa-node-js text-3xl text-emerald-400 mb-2"></i>
+            <div class="text-sm font-bold text-white">Node.js / Express</div>
+            <div class="text-[11px] text-slate-400">Backend APIs</div>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-slate-800/40 border border-slate-700/60 text-center hover:bg-slate-800 hover:border-blue-500 transition-all">
+            <i class="fa-brands fa-python text-3xl text-amber-400 mb-2"></i>
+            <div class="text-sm font-bold text-white">Python / Django</div>
+            <div class="text-[11px] text-slate-400">Automation & AI</div>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-slate-800/40 border border-slate-700/60 text-center hover:bg-slate-800 hover:border-blue-500 transition-all">
+            <i class="fa-brands fa-flutter text-3xl text-blue-400 mb-2"></i>
+            <div class="text-sm font-bold text-white">Flutter</div>
+            <div class="text-[11px] text-slate-400">iOS & Android</div>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-slate-800/40 border border-slate-700/60 text-center hover:bg-slate-800 hover:border-blue-500 transition-all">
+            <i class="fa-solid fa-database text-3xl text-indigo-400 mb-2"></i>
+            <div class="text-sm font-bold text-white">PostgreSQL / MongoDB</div>
+            <div class="text-[11px] text-slate-400">Database Design</div>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-slate-800/40 border border-slate-700/60 text-center hover:bg-slate-800 hover:border-blue-500 transition-all">
+            <i class="fa-brands fa-docker text-3xl text-sky-400 mb-2"></i>
+            <div class="text-sm font-bold text-white">Docker & Cloud</div>
+            <div class="text-[11px] text-slate-400">DevOps & Hosting</div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <section class="py-20 px-4 sm:px-6 lg:px-8 bg-slate-950/70 border-t border-slate-800">
+      <div class="max-w-7xl mx-auto">
+        
+        <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
+          <h2 class="text-xs uppercase tracking-widest text-blue-400 font-bold" data-lang-am="የደንበኞች ምስክርነት" data-lang-en="Testimonials">የደንበኞች ምስክርነት</h2>
+          <p class="text-3xl sm:text-4xl font-extrabold text-white" data-lang-am="ከባህርአብ ጋር የሰሩ ደንበኞች ምን ይላሉ?" data-lang-en="What Satisfied Clients Say">ከባህርአብ ጋር የሰሩ ደንበኞች ምን ይላሉ?</p>
+          <div class="w-20 h-1 bg-blue-600 mx-auto rounded-full"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          
+          <div class="rounded-2xl bg-slate-900 border border-slate-800 p-6 flex flex-col justify-between space-y-4">
+            <div class="space-y-3">
+              <div class="flex text-amber-400 text-xs gap-1">
+                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-300 leading-relaxed italic" data-lang-am="&ldquo;ባህርአብ ለድርጅታችን የሰራው ድረ-ገጽ እጅግ ዘመናዊና ፈጣን ነው። ከቴሌብር ጋር ያገናኘው ስርአት ስራችንን በእጅጉ አቅልሎልናል።&rdquo;" data-lang-en="&ldquo;Bahreab developed a blazingly fast portal for our company. The Telebirr automated checkout has significantly boosted sales.&rdquo;">
+                “ባህርአብ ለድርጅታችን የሰራው ድረ-ገጽ እጅግ ዘመናዊና ፈጣን ነው። ከቴሌብር ጋር ያገናኘው ስርአት ስራችንን በእጅጉ አቅልሎልናል።”
+              </p>
+            </div>
+            <div class="flex items-center gap-3 pt-3 border-t border-slate-800">
+              <div class="w-10 h-10 rounded-full bg-blue-600/30 text-blue-400 flex items-center justify-center font-bold text-sm">ዳ</div>
+              <div>
+                <div class="text-xs font-bold text-white">ዳዊት ተፈራ</div>
+                <div class="text-[10px] text-slate-400">ስራ አስኪያጅ፣ አዲስ ቴክ</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="rounded-2xl bg-slate-900 border border-slate-800 p-6 flex flex-col justify-between space-y-4">
+            <div class="space-y-3">
+              <div class="flex text-amber-400 text-xs gap-1">
+                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-300 leading-relaxed italic" data-lang-am="&ldquo;የሞባይል አፓችንን በሰዓቱ አስረክቦናል። ከዲዛይን ጀምሮ እስከ መጨረሻው ድረስ ያሳየው ሙያዊ ብቃት የሚደነቅ ነው።&rdquo;" data-lang-en="&ldquo;Delivered our mobile app ahead of deadline. Remarkable attention to UI subtleties and smooth offline behavior.&rdquo;">
+                “የሞባይል አፓችንን በሰዓቱ አስረክቦናል። ከዲዛይን ጀምሮ እስከ መጨረሻው ድረስ ያሳየው ሙያዊ ብቃት የሚደነቅ ነው።”
+              </p>
+            </div>
+            <div class="flex items-center gap-3 pt-3 border-t border-slate-800">
+              <div class="w-10 h-10 rounded-full bg-purple-600/30 text-purple-400 flex items-center justify-center font-bold text-sm">ሰ</div>
+              <div>
+                <div class="text-xs font-bold text-white">ሰላማዊት አለሙ</div>
+                <div class="text-[10px] text-slate-400">የምርት መሪ (Product Lead)</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="rounded-2xl bg-slate-900 border border-slate-800 p-6 flex flex-col justify-between space-y-4">
+            <div class="space-y-3">
+              <div class="flex text-amber-400 text-xs gap-1">
+                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-300 leading-relaxed italic" data-lang-am="&ldquo;በጣም ታማኝና ስራውን የሚያከብር መሃንዲስ ነው። ከስራው ማጠናቀቅ በኋላም የሚሰጠው የቴክኒክ ድጋፍ ከፍተኛ ነው።&rdquo;" data-lang-en="&ldquo;Highly trustworthy, dependable engineer with world-class communication skills and dedicated post-launch support.&rdquo;">
+                “በጣም ታማኝና ስራውን የሚያከብር መሃንዲስ ነው። ከስራው ማጠናቀቅ በኋላም የሚሰጠው የቴክኒክ ድጋፍ ከፍተኛ ነው።”
+              </p>
+            </div>
+            <div class="flex items-center gap-3 pt-3 border-t border-slate-800">
+              <div class="w-10 h-10 rounded-full bg-emerald-600/30 text-emerald-400 flex items-center justify-center font-bold text-sm">ዮ</div>
+              <div>
+                <div class="text-xs font-bold text-white">ዮናታን በለጠ</div>
+                <div class="text-[10px] text-slate-400">መስራች፣ አባይ ሎጅስቲክስ</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <section id="contact" class="py-20 px-4 sm:px-6 lg:px-8 border-t border-slate-800">
+      <div class="max-w-7xl mx-auto">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+          
+          <!-- Contact Left Information -->
+          <div class="lg:col-span-5 space-y-8">
+            <div>
+              <h2 class="text-xs uppercase tracking-widest text-blue-400 font-bold" data-lang-am="አብረን እንስራ" data-lang-en="Get In Touch">አብረን እንስራ</h2>
+              <p class="text-3xl sm:text-4xl font-extrabold text-white mt-2" data-lang-am="ባህርአብን በቀላሉ ያግኙ" data-lang-en="Connect with Bahreab">ባህርአብን በቀላሉ ያግኙ</p>
+              <p class="text-sm text-slate-400 mt-4 leading-relaxed" data-lang-am="አዲስ ድረ-ገጽ መስራት፣ ነባሩን ማሻሻል ወይም የቴክኖሎጂ ምክክር ይፈልጋሉ? መልእክትዎን ያስቀምጡ፤ በ24 ሰዓት ውስጥ ምላሽ እሰጣለሁ።" data-lang-en="Have a project concept or need technical advisory? Send a message and let's craft something remarkable together.">
+                አዲስ ድረ-ገጽ መስራት፣ ነባሩን ማሻሻል ወይም የቴክኖሎጂ ምክክር ይፈልጋሉ? መልእክትዎን ያስቀምጡ፤ በ24 ሰዓት ውስጥ ምላሽ እሰጣለሁ።
+              </p>
+            </div>
+
+            <!-- Contact detail cards -->
+            <div class="space-y-4 text-sm">
+              <div class="flex items-center gap-4 p-4 rounded-2xl bg-slate-900 border border-slate-800">
+                <div class="w-12 h-12 rounded-xl bg-blue-600/20 text-blue-400 flex items-center justify-center text-lg">
+                  <i class="fa-solid fa-phone"></i>
+                </div>
+                <div>
+                  <div class="text-xs text-slate-400" data-lang-am="ስልክ ቁጥር" data-lang-en="Phone">ስልክ ቁጥር</div>
+                  <div class="font-bold text-white font-mono">+251 912 34 56 78</div>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-4 p-4 rounded-2xl bg-slate-900 border border-slate-800">
+                <div class="w-12 h-12 rounded-xl bg-sky-600/20 text-sky-400 flex items-center justify-center text-lg">
+                  <i class="fa-solid fa-envelope"></i>
+                </div>
+                <div>
+                  <div class="text-xs text-slate-400" data-lang-am="ኢሜይል" data-lang-en="Email Address">ኢሜይል</div>
+                  <div class="font-bold text-white font-mono">bahreab.dev@gmail.com</div>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-4 p-4 rounded-2xl bg-slate-900 border border-slate-800">
+                <div class="w-12 h-12 rounded-xl bg-indigo-600/20 text-indigo-400 flex items-center justify-center text-lg">
+                  <i class="fa-solid fa-location-dot"></i>
+                </div>
+                <div>
+                  <div class="text-xs text-slate-400" data-lang-am="አድራሻ" data-lang-en="Location">አድራሻ</div>
+                  <div class="font-bold text-white" data-lang-am="ባህር ዳር & አዲስ አበባ፣ ኢትዮጵያ" data-lang-en="Bahir Dar & Addis Ababa, Ethiopia">ባህር ዳር & አዲስ አበባ፣ ኢትዮጵያ</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Socials -->
+            <div>
+              <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3" data-lang-am="ማህበራዊ ሚዲያ" data-lang-en="Social Media">ማህበራዊ ሚዲያ</div>
+              <div class="flex gap-3">
+                <a href="https://t.me/" target="_blank" class="w-10 h-10 rounded-xl bg-slate-800 hover:bg-sky-600 text-slate-300 hover:text-white flex items-center justify-center transition-all">
+                  <i class="fa-brands fa-telegram"></i>
+                </a>
+                <a href="https://linkedin.com/" target="_blank" class="w-10 h-10 rounded-xl bg-slate-800 hover:bg-blue-600 text-slate-300 hover:text-white flex items-center justify-center transition-all">
+                  <i class="fa-brands fa-linkedin-in"></i>
+                </a>
+                <a href="https://github.com/" target="_blank" class="w-10 h-10 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center justify-center transition-all">
+                  <i class="fa-brands fa-github"></i>
+                </a>
+                <a href="https://twitter.com/" target="_blank" class="w-10 h-10 rounded-xl bg-slate-800 hover:bg-sky-500 text-slate-300 hover:text-white flex items-center justify-center transition-all">
+                  <i class="fa-brands fa-x-twitter"></i>
+                </a>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Contact Right Form -->
+          <div class="lg:col-span-7 bg-slate-900/90 border border-slate-800 p-8 rounded-3xl shadow-xl">
+            <h3 class="text-xl font-bold text-white mb-6" data-lang-am="መልእክትዎን እዚህ ይላኩ" data-lang-en="Send Bahreab a Direct Message">መልእክትዎን እዚህ ይላኩ</h3>
+            
+            <form id="contactForm" onsubmit="handleContactSubmit(event)" class="space-y-5">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-medium text-slate-400 mb-1.5" data-lang-am="ሙሉ ስምዎ" data-lang-en="Full Name">ሙሉ ስምዎ</label>
+                  <input type="text" id="contactName" required placeholder="ለምሳሌ፡ ከበደ ካሳ" class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+                </div>
+
+                <div>
+                  <label class="block text-xs font-medium text-slate-400 mb-1.5" data-lang-am="ስልክ ቁጥር" data-lang-en="Phone Number">ስልክ ቁጥር</label>
+                  <input type="tel" id="contactPhone" required placeholder="0911..." class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-medium text-slate-400 mb-1.5" data-lang-am="የኢሜይል አድራሻ" data-lang-en="Email Address">የኢሜይል አድራሻ</label>
+                <input type="email" id="contactEmail" required placeholder="you@domain.com" class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+              </div>
+
+              <div>
+                <label class="block text-xs font-medium text-slate-400 mb-1.5" data-lang-am="የፕሮጀክቱ አይነት" data-lang-en="Service Category">የፕሮጀክቱ አይነት</label>
+                <select id="contactService" class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+                  <option value="website">የድርጅት ድረ-ገጽ (Website)</option>
+                  <option value="ecommerce">ኢ-ኮሜርስ / መገበያያ ፕላትፎርም</option>
+                  <option value="mobile">የሞባይል መተግበሪያ (Mobile App)</option>
+                  <option value="custom">ብጁ የሶፍትዌር ሲስተም</option>
+                  <option value="consulting">የቴክኖሎጂ ማማከር</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-xs font-medium text-slate-400 mb-1.5" data-lang-am="ዝርዝር መልእክት" data-lang-en="Project Description">ዝርዝር መልእክት</label>
+                <textarea id="contactMessage" rows="4" required placeholder="ስለ ፕሮጀክትዎ ወይም ፍላጎትዎ አጭር መግለጫ ይፃፉ..." class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"></textarea>
+              </div>
+
+              <button type="submit" class="w-full py-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm shadow-xl shadow-blue-600/30 flex items-center justify-center gap-2 transition-all hover:scale-[1.01]">
+                <i class="fa-regular fa-paper-plane"></i>
+                <span data-lang-am="መልእክት ላክ" data-lang-en="Send Message Now">መልእክት ላክ</span>
+              </button>
+            </form>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-slate-800 bg-slate-950 py-12 px-4 sm:px-6 lg:px-8 text-center sm:text-left">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
+      
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold text-sm">
+          ባ
+        </div>
+        <div>
+          <span class="font-bold text-white text-sm">ባህርአብ (Bahreab)</span>
+          <span class="text-xs text-slate-500 block">© 2026. All rights reserved.</span>
+        </div>
+      </div>
+
+      <div class="flex gap-6 text-xs text-slate-400">
+        <a href="#about" class="hover:text-blue-400" data-lang-am="ስለ እኔ" data-lang-en="About">ስለ እኔ</a>
+        <a href="#services" class="hover:text-blue-400" data-lang-am="አገልግሎቶች" data-lang-en="Services">አገልግሎቶች</a>
+        <a href="#portfolio" class="hover:text-blue-400" data-lang-am="ስራዎች" data-lang-en="Portfolio">ስራዎች</a>
+        <a href="#estimator" class="hover:text-blue-400" data-lang-am="ወጪ አስላ" data-lang-en="Estimator">ወጪ አስላ</a>
+      </div>
+
+      <div class="text-xs text-slate-500">
+        <span data-lang-am="በፍቅር እና በሙያዊ ብቃት የተሰራ" data-lang-en="Crafted with Precision & Passion">በፍቅር እና በሙያዊ ብቃት የተሰራ</span> 🇪🇹
+      </div>
+    </div>
+  </footer>
+
+  <div id="projectModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-700 max-w-2xl w-full rounded-3xl p-6 sm:p-8 shadow-2xl relative space-y-6">
+      <button onclick="closeProjectModal()" class="absolute top-6 right-6 w-9 h-9 rounded-full bg-slate-800 text-slate-300 hover:text-white flex items-center justify-center">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="w-14 h-14 rounded-2xl bg-blue-600/20 text-blue-400 flex items-center justify-center text-2xl" id="modalIcon">
+        <i class="fa-solid fa-globe"></i>
+      </div>
+
+      <div>
+        <h3 class="text-2xl font-bold text-white" id="modalTitle">የፕሮጀክት ርዕስ</h3>
+        <p class="text-xs text-blue-400 font-mono mt-1" id="modalCategory">Category Tag</p>
+      </div>
+
+      <p class="text-sm text-slate-300 leading-relaxed" id="modalDescription">
+        የፕሮጀክት ሙሉ መግለጫ...
+      </p>
+
+      <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
+        <div class="text-xs text-slate-400 font-semibold" data-lang-am="ዋና ዋና ባህሪያት:" data-lang-en="Key Features:">ዋና ዋና ባህሪያት:</div>
+        <ul class="text-xs text-slate-300 list-disc list-inside space-y-1" id="modalFeatures">
+          <li>ባህሪ 1</li>
+          <li>ባህሪ 2</li>
+        </ul>
+      </div>
+
+      <div class="flex justify-end gap-3 pt-2">
+        <button onclick="closeProjectModal()" class="px-5 py-2.5 rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 text-xs font-semibold">
+          <span data-lang-am="ዝጋ" data-lang-en="Close">ዝጋ</span>
+        </button>
+        <a href="#contact" onclick="closeProjectModal()" class="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold flex items-center gap-2">
+          <span data-lang-am="ተመሳሳይ ፕሮጀክት አዘዝ" data-lang-en="Request Similar Project">ተመሳሳይ ፕሮጀክት አዘዝ</span>
+          <i class="fa-solid fa-arrow-right text-[10px]"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div id="toastNotification" class="fixed bottom-6 right-6 z-50 transform translate-y-32 transition-transform duration-300 ease-out">
+    <div class="flex items-center gap-3 px-5 py-4 rounded-2xl bg-slate-800 border border-blue-500/40 text-white shadow-2xl">
+      <div class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-sm" id="toastIcon">
+        <i class="fa-solid fa-check"></i>
+      </div>
+      <div>
+        <div class="text-xs font-bold" id="toastTitle">መልእክት</div>
+        <div class="text-xs text-slate-400" id="toastBody">ተሳክቷል</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // State management
+    let currentLanguage = 'am'; // 'am' for Amharic, 'en' for English
+    let soundEnabled = true;
+    let synth = null;
+
+    // Estimator State Variables
+    let basePrice = 15000;
+    let baseDays = 10;
+    let addonsPrice = 0;
+    let addonsDays = 0;
+    let speedMultiplier = 1.0;
+    let speedDaysMod = 0;
+
+    // Tone.js soft feedback sound
+    function playSoftClick() {
+      if (!soundEnabled) return;
+      try {
+        if (!synth) {
+          synth = new Tone.Synth({
+            oscillator: { type: "sine" },
+            envelope: { attack: 0.005, decay: 0.1, sustain: 0, release: 0.1 }
+          }).toDestination();
+          synth.volume.value = -12;
+        }
+        if (Tone.context.state !== 'running') {
+          Tone.context.resume();
+        }
+        synth.triggerAttackRelease("C5", "32n");
+      } catch (e) {
+        // Fallback gracefully
+      }
+    }
+
+    function toggleSoundEffect() {
+      soundEnabled = !soundEnabled;
+      const soundIcon = document.getElementById('soundIcon');
+      if (soundEnabled) {
+        soundIcon.className = "fa-solid fa-volume-high";
+        showToast("ድምፅ", "የአዝራሮች ድምፅ በርቷል ✨");
+        playSoftClick();
+      } else {
+        soundIcon.className = "fa-solid fa-volume-xmark";
+        showToast("ድምፅ", "የአዝራሮች ድምፅ ጠፍቷል");
+      }
+    }
+
+    // Language Toggle (Amharic <-> English)
+    function toggleLanguage() {
+      playSoftClick();
+      currentLanguage = currentLanguage === 'am' ? 'en' : 'am';
+      const label = document.getElementById('currentLangLabel');
+      label.innerText = currentLanguage === 'am' ? 'English' : 'አማርኛ';
+
+      // Update all data-lang attributes
+      document.querySelectorAll('[data-lang-am]').forEach(el => {
+        const text = el.getAttribute(currentLanguage === 'am' ? 'data-lang-am' : 'data-lang-en');
+        if (text) {
+          el.innerText = text;
+        }
+      });
+
+      // Update document title
+      if (currentLanguage === 'am') {
+        document.title = "ባህርአብ | Bahreab - የቴክኖሎጂ እና ዲጂታል መፍትሄዎች";
+      } else {
+        document.title = "Bahreab | Software Engineer & Digital Solutions";
+      }
+
+      showToast(currentLanguage === 'am' ? "ቋንቋ ተቀይሯል" : "Language Switched", currentLanguage === 'am' ? "ወደ አማርኛ ተቀይሯል" : "Switched to English");
+    }
+
+    // Mobile Navbar toggle
+    function toggleMobileNav() {
+      playSoftClick();
+      const menu = document.getElementById('mobileMenu');
+      const icon = document.getElementById('menuIcon');
+      menu.classList.toggle('hidden');
+      if (menu.classList.contains('hidden')) {
+        icon.className = "fa-solid fa-bars";
+      } else {
+        icon.className = "fa-solid fa-xmark";
+      }
+    }
+
+    // Portfolio Filter
+    function filterPortfolio(category, btnElement) {
+      playSoftClick();
+      
+      // Update filter button styling
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('bg-blue-600', 'text-white', 'shadow-md');
+        btn.classList.add('bg-slate-800', 'text-slate-300');
+      });
+      btnElement.classList.remove('bg-slate-800', 'text-slate-300');
+      btnElement.classList.add('bg-blue-600', 'text-white', 'shadow-md');
+
+      // Filter portfolio items
+      const items = document.querySelectorAll('.portfolio-item');
+      items.forEach(item => {
+        if (category === 'all' || item.getAttribute('data-category') === category) {
+          item.style.display = 'flex';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+
+    // Project Details Data & Modal
+    const projectDetailsData = {
+      habeshaMart: {
+        titleAm: "ሀበሻ ማርት - የኢ-ኮሜርስ ፕላትፎርም",
+        titleEn: "Habesha Mart - E-Commerce Platform",
+        category: "Fintech & E-Commerce",
+        descAm: "ይህ ፕሮጀክት በኢትዮጵያ ውስጥ ያሉ የንግድ ተቋማት እቃዎቻቸውን በቀጥታ በድረ-ገጽ እንዲሸጡ የተሰራ ሙሉ የንግድ ስርአት ነው። ደንበኞች በቴሌብር (Telebirr)፣ በሲቢኢ ብር (CBE Birr) እና በቪዛ/ማስተርካርድ መክፈል ይችላሉ።",
+        descEn: "A full-scale cloud marketplace built for Ethiopian retailers. Integrates automated Telebirr API webhooks, automated SMS invoicing, and seller dashboards.",
+        featuresAm: [
+          "ቀጥተኛ የቴሌብር ክፍያ ማረጋገጫ (Automatic Webhook)",
+          "የእቃዎች ክምችት መቆጣጠሪያ (Inventory Control)",
+          "ለሞባይል እና ለኮምፒውተር ተስማሚ ፈጣን እይታ"
+        ],
+        featuresEn: [
+          "Direct Telebirr and CBE Birr automated checkout",
+          "Real-time inventory and order lifecycle tracker",
+          "Ultra-fast Next.js server-side rendered pages"
+        ],
+        icon: "fa-basket-shopping"
+      },
+      fastDelivery: {
+        titleAm: "ፈጣን ደሊቨሪ - የሞባይል መተግበሪያ",
+        titleEn: "Fast Delivery - Logistics & Dispatch",
+        category: "Mobile Apps (Flutter & iOS)",
+        descAm: "በአዲስ አበባ እና በክልል ከተሞች ለሚገኙ የፖስታ፣ የህክምና እቃዎች እና የምግብ አቅራቢዎች የተሰራ ፈጣን የሞባይል መተግበሪያ። ደንበኞች እቃቸው የት እንደደረሰ በGoogle ካርታ ላይ በቀጥታ መከታተል ይችላሉ።",
+        descEn: "Cross-platform logistics tracking and dispatch app engineered with Flutter and WebSocket connections. Allows live parcel tracing and instant proof-of-delivery signatures.",
+        featuresAm: [
+          "የቀጥታ ካርታ መከታተያ (Live GPS tracking)",
+          "ለሾፌሮች እና ለደንበኞች የተለየ መለያ",
+          "በቴሌግራም ቦት በኩል ማሳወቂያዎች መላክ"
+        ],
+        featuresEn: [
+          "Sub-second real-time GPS coordinate broadcasting",
+          "Role-based authentication for drivers & senders",
+          "Instant Telegram notification bot synchronization"
+        ],
+        icon: "fa-map-location-dot"
+      },
+      tenaCare: {
+        titleAm: "ጤና ኬር - የክሊኒክ አስተዳደር ድረ-ገጽ",
+        titleEn: "Tena Care - Clinic Management System",
+        category: "Enterprise Web Software",
+        descAm: "ለሆስፒታሎች እና ክሊኒኮች የታካሚ መዝገብን፣ የላብራቶሪ ውጤቶችን፣ የመድሃኒት ቤት ዝውውርን እና የሂሳብ ክፍልን የሚያቀናጅ ደህንነቱ አስተማማኝ ሶፍትዌር።",
+        descEn: "HIPAA-compliant hospital electronic record platform managing appointments, outpatient prescriptions, and departmental billing with role permissions.",
+        featuresAm: [
+          "የታካሚዎች ዲጂታል ፋይል እና ታሪክ አያያዝ",
+          "የዶክተሮች የቀጠሮ ቀን መቁጠሪያ",
+          "የፋይናንስ እና ወጪ ሪፖርት ማመንጫ"
+        ],
+        featuresEn: [
+          "Patient digital health history & prescription records",
+          "Doctor appointment calendar & automated reminders",
+          "Comprehensive monthly revenue & pharmacy inventory reports"
+        ],
+        icon: "fa-hospital-user"
+      }
+    };
+
+    function openProjectModal(key) {
+      playSoftClick();
+      const data = projectDetailsData[key];
+      if (!data) return;
+
+      document.getElementById('modalTitle').innerText = currentLanguage === 'am' ? data.titleAm : data.titleEn;
+      document.getElementById('modalCategory').innerText = data.category;
+      document.getElementById('modalDescription').innerText = currentLanguage === 'am' ? data.descAm : data.descEn;
+      document.getElementById('modalIcon').innerHTML = `<i class="fa-solid ${data.icon}"></i>`;
+
+      const featuresList = document.getElementById('modalFeatures');
+      featuresList.innerHTML = '';
+      const list = currentLanguage === 'am' ? data.featuresAm : data.featuresEn;
+      list.forEach(item => {
+        const li = document.createElement('li');
+        li.innerText = item;
+        featuresList.appendChild(li);
+      });
+
+      const modal = document.getElementById('projectModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeProjectModal() {
+      playSoftClick();
+      const modal = document.getElementById('projectModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    // Cost Calculator Logic
+    function selectType(button, price, days) {
+      playSoftClick();
+      document.querySelectorAll('.type-btn').forEach(btn => {
+        btn.classList.remove('active', 'border-blue-500', 'bg-blue-600/20');
+        btn.classList.add('border-slate-800', 'bg-slate-900');
+      });
+      button.classList.add('active', 'border-blue-500', 'bg-blue-600/20');
+      button.classList.remove('border-slate-800', 'bg-slate-900');
+
+      basePrice = price;
+      baseDays = days;
+      recalculateTotal();
+    }
+
+    function toggleAddon(price, days, checkbox) {
+      playSoftClick();
+      if (checkbox.checked) {
+        addonsPrice += price;
+        addonsDays += days;
+      } else {
+        addonsPrice -= price;
+        addonsDays -= days;
+      }
+      recalculateTotal();
+    }
+
+    function selectSpeed(multiplier, daysMod, button) {
+      playSoftClick();
+      document.querySelectorAll('.speed-btn').forEach(btn => {
+        btn.classList.remove('active', 'border-blue-500', 'bg-blue-600/20');
+        btn.classList.add('border-slate-800', 'bg-slate-900');
+      });
+      button.classList.add('active', 'border-blue-500', 'bg-blue-600/20');
+      button.classList.remove('border-slate-800', 'bg-slate-900');
+
+      speedMultiplier = multiplier;
+      speedDaysMod = daysMod;
+      recalculateTotal();
+    }
+
+    function recalculateTotal() {
+      const rawTotal = (basePrice + addonsPrice) * speedMultiplier;
+      const roundedTotal = Math.round(rawTotal);
+      
+      const totalDays = Math.max(3, baseDays + addonsDays + speedDaysMod);
+
+      // Approximate USD equivalent (1 USD ≈ 125-135 ETB baseline estimate)
+      const approxUsdMin = Math.round(roundedTotal / 135);
+      const approxUsdMax = Math.round(roundedTotal / 120);
+
+      document.getElementById('baseCostLabel').innerText = `${basePrice.toLocaleString()} ብር`;
+      document.getElementById('addonsCostLabel').innerText = `${addonsPrice.toLocaleString()} ብር`;
+      document.getElementById('timelineLabel').innerText = `${totalDays} ${currentLanguage === 'am' ? 'የስራ ቀናት' : 'Work Days'}`;
+      document.getElementById('totalCostDisplay').innerText = `${roundedTotal.toLocaleString()} ብር`;
+      document.getElementById('usdCostDisplay').innerText = `≈ $${approxUsdMin} - $${approxUsdMax} USD`;
+    }
+
+    function applyEstimateToContact() {
+      playSoftClick();
+      const total = document.getElementById('totalCostDisplay').innerText;
+      const timeline = document.getElementById('timelineLabel').innerText;
+      const msgArea = document.getElementById('contactMessage');
+      
+      msgArea.value = `ሰላም ባህርአብ፤ በድረ-ገጽህ ባስቀመጥከው ካልኩሌተር መሰረት ግምታዊ ወጪው (${total}) እና ጊዜው (${timeline}) የሆነ ፕሮጀክት ማሰራት እፈልጋለሁ። ዝርዝሩን ለመወያየት ዝግጁ ነኝ።`;
+      
+      // Scroll to contact form
+      document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+      showToast("ግምት ተያይዟል", "የመረጡት ወጪ ወደ መልእክት ፎርሙ ገብቷል!");
+    }
+
+    // Contact form submit handler
+    function handleContactSubmit(e) {
+      e.preventDefault();
+      playSoftClick();
+
+      const name = document.getElementById('contactName').value;
+      
+      // Success toast instead of alert
+      showToast(
+        currentLanguage === 'am' ? "መልእክትዎ ደርሷል!" : "Message Sent!",
+        currentLanguage === 'am' ? `እናመሰግናለን ${name}፣ ባህርአብ በቅርቡ ያነጋግርዎታል!` : `Thank you ${name}, Bahreab will be in touch shortly!`
+      );
+
+      document.getElementById('contactForm').reset();
+    }
+
+    // Toast Notification helper
+    function showToast(title, body) {
+      const toast = document.getElementById('toastNotification');
+      document.getElementById('toastTitle').innerText = title;
+      document.getElementById('toastBody').innerText = body;
+
+      toast.classList.remove('translate-y-32');
+      setTimeout(() => {
+        toast.classList.add('translate-y-32');
+      }, 4000);
+    }
+
+    // CV Download simulator
+    function downloadCV() {
+      playSoftClick();
+      showToast("CV / ሬዙሜ", "የባህርአብ የሙያ ማጠቃለያ ሰነድ (CV) እየተዘጋጀ ነው...");
+    }
+
+    // Initialize on window load
+    window.onload = function() {
+      recalculateTotal();
+      console.log("Bahreab Website loaded successfully.");
+    };
+  </script>
+</body>
+</html>
+
+```
